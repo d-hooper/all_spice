@@ -39,7 +39,7 @@ public class RecipesService
     Recipe recipe = GetRecipeById(recipeId);
     if (recipe.CreatorId != userInfo.Id)
     {
-      throw new Exception($"you cannot update recipes input by other users {userInfo.Name}".ToUpper());
+      throw new Exception($"you cannot update recipes added by other users {userInfo.Name}".ToUpper());
     }
     recipe.Title = recipeData.Title ?? recipe.Title;
     recipe.Instructions = recipeData.Instructions ?? recipe.Instructions;
@@ -47,5 +47,18 @@ public class RecipesService
     _repository.UpdateRecipe(recipe);
 
     return recipe;
+  }
+
+  internal string DeleteRecipe(int recipeId, Account userInfo)
+  {
+    Recipe recipe = GetRecipeById(recipeId);
+    if (recipe.CreatorId != userInfo.Id)
+    {
+      throw new Exception($"you cannot delete recipes added by other users {userInfo.Name}".ToUpper());
+    }
+
+    _repository.DeleteRecipe(recipeId);
+
+    return $"Your {recipe.Title} recipe was deleted";
   }
 }

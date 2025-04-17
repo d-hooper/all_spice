@@ -82,4 +82,16 @@ public class RecipesRepository
       throw new Exception($"The update did not process as expected. {rowsAffected} rows were updated instead of 1");
     }
   }
+
+  internal void DeleteRecipe(int recipeId)
+  {
+    string sql = "DELETE FROM recipes WHERE id = @recipeId;";
+
+    int rowsAffected = _db.Execute(sql, new { recipeId });
+    if (rowsAffected != 1)
+    {
+      throw new Exception($"The delete request did not process as expected. {rowsAffected} rows were deleted instead of 1");
+    }
+
+  }
 }
