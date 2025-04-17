@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS accounts(
   picture VARCHAR(255) COMMENT 'User Picture'
 ) default charset utf8mb4 COMMENT '';
 
+--RECIPES
 CREATE TABLE recipes(
   id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -29,3 +30,16 @@ SELECT
   FROM recipes
   INNER JOIN accounts ON accounts.id = recipes.creator_id
   WHERE recipes.id = LAST_INSERT_ID();
+
+  --INGREDIENTS
+CREATE TABLE ingredients(
+  id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  name TINYTEXT NOT NULL,
+  quantity TINYTEXT NOT NULL,
+  recipe_id INT UNSIGNED NOT NULL,
+  FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE
+);
+
+drop table ingredients;
