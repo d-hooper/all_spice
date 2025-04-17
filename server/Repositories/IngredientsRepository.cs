@@ -1,5 +1,7 @@
 
 
+
+
 namespace all_spice.Repositories;
 
 public class IngredientsRepository
@@ -28,5 +30,24 @@ public class IngredientsRepository
 
     List<Ingredient> ingredients = _db.Query<Ingredient>(sql, new { recipeId }).ToList();
     return ingredients;
+  }
+
+  internal Ingredient GetIngredientById(int ingredientId)
+  {
+    string sql = "SELECT * FROM ingredients WHERE id = @ingredientId";
+
+    Ingredient ingredient = _db.Query<Ingredient>(sql, new { ingredientId }).SingleOrDefault();
+    return ingredient;
+  }
+
+  internal void DeleteIngredient(int ingredientId)
+  {
+    string sql = @"DELETE FROM ingredients WHERE id = @ingredientId";
+
+    int rowsAffected = _db.Execute(sql, new { ingredientId });
+    if (rowsAffected != 1)
+    {
+      throw new Exception($"The delete request did not process as expected. {rowsAffected} rows were deleted instead of 1");
+    }
   }
 }

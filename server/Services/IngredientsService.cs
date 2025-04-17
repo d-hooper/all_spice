@@ -30,4 +30,25 @@ public class IngredientsService
     List<Ingredient> ingredients = _repository.GetIngredientsByRecipeId(recipeId);
     return ingredients;
   }
+
+  private Ingredient GetIngredientById(int ingredientId)
+  {
+    Ingredient ingredient = _repository.GetIngredientById(ingredientId);
+
+    if (ingredient == null)
+    {
+      throw new Exception($"No ingredient found with id of {ingredientId}");
+    }
+
+    return ingredient;
+  }
+
+  internal string DeleteIngredient(int ingredientId, Account userInfo)
+  {
+    Ingredient ingredient = GetIngredientById(ingredientId);
+
+    _repository.DeleteIngredient(ingredientId);
+
+    return $"{ingredient.Name} was deleted";
+  }
 }
