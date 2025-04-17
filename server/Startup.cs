@@ -14,8 +14,8 @@ public class Startup
   public Startup(IConfiguration configuration)
   {
     Configuration = configuration;
-    
-      // converts snake_case to PascalCase
+
+    // converts snake_case to PascalCase
     DefaultTypeMap.MatchNamesWithUnderscores = true;
   }
 
@@ -36,6 +36,15 @@ public class Startup
 
     services.AddScoped<AccountsRepository>();
     services.AddScoped<AccountService>();
+
+    services.AddScoped<RecipesRepository>();
+    services.AddScoped<RecipesService>();
+
+    // services.AddScoped<IngredientsRepository>();
+    // services.AddScoped<IngredientsService>();
+
+    // services.AddScoped<FavoritesRepository>();
+    // services.AddScoped<FavoritesService>();
   }
 
   private void ConfigureCors(IServiceCollection services)

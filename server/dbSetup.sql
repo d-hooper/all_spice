@@ -6,3 +6,26 @@ CREATE TABLE IF NOT EXISTS accounts(
   email VARCHAR(255) UNIQUE COMMENT 'User Email',
   picture VARCHAR(255) COMMENT 'User Picture'
 ) default charset utf8mb4 COMMENT '';
+
+CREATE TABLE recipes(
+  id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  title TINYTEXT NOT NULL,
+  instructions TEXT,
+  img TEXT NOT NULL,
+  category ENUM('breakfast', 'lunch', 'dinner', 'snack', 'dessert') NOT NULL,
+  creator_id VARCHAR(255) NOT NULL,
+  FOREIGN KEY (creator_id) REFERENCES accounts(id) ON DELETE CASCADE
+);
+
+DROP table recipes;
+
+SELECT * FROM recipes;
+
+SELECT 
+  recipes.*,
+  accounts.*
+  FROM recipes
+  INNER JOIN accounts ON accounts.id = recipes.creator_id
+  WHERE recipes.id = LAST_INSERT_ID();
