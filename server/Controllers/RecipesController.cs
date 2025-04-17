@@ -14,24 +14,6 @@ public class RecipesController : ControllerBase
   private readonly RecipesService _recipesService;
   private readonly Auth0Provider _auth0Provider;
 
-  [HttpPost, Authorize]
-  public async Task<ActionResult<Recipe>> CreateRecipe([FromBody] Recipe recipeData)
-  {
-    try
-    {
-      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
-      recipeData.CreatorId = userInfo.Id;
-      Recipe recipe = _recipesService.CreateRecipe(recipeData);
-      return Ok(recipe);
-    }
-    catch (Exception exception)
-    {
-
-      return BadRequest(exception.Message);
-
-    }
-  }
-
   [HttpGet]
   //                                          vv[FromQuery] string category
   public ActionResult<List<Recipe>> GetRecipes()
@@ -74,4 +56,40 @@ public class RecipesController : ControllerBase
     }
 
   }
+
+  [HttpPost, Authorize]
+  public async Task<ActionResult<Recipe>> CreateRecipe([FromBody] Recipe recipeData)
+  {
+    try
+    {
+      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+      recipeData.CreatorId = userInfo.Id;
+      Recipe recipe = _recipesService.CreateRecipe(recipeData);
+      return Ok(recipe);
+    }
+    catch (Exception exception)
+    {
+
+      return BadRequest(exception.Message);
+
+    }
+  }
+
+  [HttpPut("{recipeId}"), Authorize]
+  public async Task<ActionResult<Recipe>> UpdateRecipe(int recipeId, [FromBody] Recipe recipeData)
+  {
+    try
+    {
+      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+      Recipe recipe = _recipesService.UpdateRecipe(recipeData, recipeId, userInfo);
+      return Ok(recipe);
+    }
+    catch (Exception exception)
+    {
+
+      return BadRequest(exception.Message);
+
+    }
+  }
+
 }

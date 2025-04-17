@@ -11,12 +11,6 @@ public class RecipesService
   }
   private readonly RecipesRepository _repository;
 
-  internal Recipe CreateRecipe(Recipe recipeData)
-  {
-    Recipe recipe = _repository.CreateRecipe(recipeData);
-    return recipe;
-  }
-
   internal List<Recipe> GetRecipes()
   {
     List<Recipe> recipes = _repository.GetRecipes();
@@ -31,6 +25,26 @@ public class RecipesService
     {
       throw new Exception($"No recipe found with id of {recipeId}");
     }
+
+    return recipe;
+  }
+  internal Recipe CreateRecipe(Recipe recipeData)
+  {
+    Recipe recipe = _repository.CreateRecipe(recipeData);
+    return recipe;
+  }
+
+  internal Recipe UpdateRecipe(Recipe recipeData, int recipeId, Account userInfo)
+  {
+    Recipe recipe = GetRecipeById(recipeId);
+    if (recipe.CreatorId != userInfo.Id)
+    {
+      throw new Exception($"you cannot update recipes input by other users {userInfo.Name}".ToUpper());
+    }
+    recipe.Title = recipeData.Title ?? recipe.Title;
+    recipe.Instructions = recipeData.Instructions ?? recipe.Instructions;
+
+    _repository.UpdateRecipe(recipe);
 
     return recipe;
   }

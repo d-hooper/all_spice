@@ -1,6 +1,7 @@
 
 
 
+
 namespace all_spice.Repositories;
 
 public class RecipesRepository
@@ -64,5 +65,21 @@ public class RecipesRepository
       return recipe;
     }, new { recipeId }).SingleOrDefault();
     return foundRecipe;
+  }
+
+  internal void UpdateRecipe(Recipe recipe)
+  {
+    string sql = @"
+    UPDATE recipes SET
+    title = @Title,
+    instructions = @Instructions
+    WHERE id = @Id LIMIT 1;";
+
+    int rowsAffected = _db.Execute(sql, recipe);
+
+    if (rowsAffected != 1)
+    {
+      throw new Exception($"The update did not process as expected. {rowsAffected} rows were updated instead of 1");
+    }
   }
 }
