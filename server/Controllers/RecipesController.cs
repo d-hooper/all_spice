@@ -5,14 +5,76 @@ namespace all_spice.Controllers;
 public class RecipesController : ControllerBase
 {
 
-  public RecipesController(RecipesService recipesService, Auth0Provider auth0Provider)
+  public RecipesController(RecipesService recipesService, Auth0Provider auth0Provider, IngredientsService ingredientsService)
   {
     _recipesService = recipesService;
     _auth0Provider = auth0Provider;
+    _ingredientsService = ingredientsService;
   }
 
   private readonly RecipesService _recipesService;
   private readonly Auth0Provider _auth0Provider;
+  private readonly IngredientsService _ingredientsService;
+
+  [HttpGet]
+  //                                          vv[FromQuery] string category
+  public ActionResult<List<Recipe>> GetRecipes()
+  {
+    try
+    {
+      // if (category == null)
+      // {
+      List<Recipe> recipes = _recipesService.GetRecipes();
+
+      // }
+      // else
+      // {
+      //   List<Recipe> recipes = _recipesService.GetRecipes(category);
+      // }
+      return Ok(recipes);
+    }
+    catch (Exception exception)
+    {
+
+      return BadRequest(exception.Message);
+    }
+
+  }
+
+  [HttpGet("{recipeId}")]
+  public ActionResult<Recipe> GetRecipeById(int recipeId)
+  {
+    try
+    {
+
+      Recipe recipe = _recipesService.GetRecipeById(recipeId);
+
+      return Ok(recipe);
+    }
+    catch (Exception exception)
+    {
+
+      return BadRequest(exception.Message);
+    }
+
+  }
+
+  [HttpGet("{recipeId}/ingredients")]
+  public ActionResult<List<Ingredient>> GetIngredientsByRecipeId(int recipeId)
+  {
+    try
+    {
+
+      List<Ingredient> ingredients = _ingredientsService.GetIngredientsByRecipeId(recipeId);
+
+      return Ok(ingredients);
+    }
+    catch (Exception exception)
+    {
+
+      return BadRequest(exception.Message);
+    }
+  }
 
   [HttpPost, Authorize]
   public async Task<ActionResult<Recipe>> CreateRecipe([FromBody] Recipe recipeData)
@@ -32,28 +94,38 @@ public class RecipesController : ControllerBase
     }
   }
 
-  // [HttpGet]
-  //                                           vv[FromQuery] string category
-  // public ActionResult<List<Recipe>> GetRecipes()
-  // {
-  //   try
-  //   {
-  //     // if (category == null)
-  //     // {
-  //     List<Recipe> recipes = _recipesService.GetRecipes();
+  [HttpPut("{recipeId}"), Authorize]
+  public async Task<ActionResult<Recipe>> UpdateRecipe(int recipeId, [FromBody] Recipe recipeData)
+  {
+    try
+    {
+      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+      Recipe recipe = _recipesService.UpdateRecipe(recipeData, recipeId, userInfo);
+      return Ok(recipe);
+    }
+    catch (Exception exception)
+    {
 
-  //     // }
-  //     // else
-  //     // {
-  //     //   List<Recipe> recipes = _recipesService.GetRecipes(category);
-  //     // }
-  //     return Ok(recipes);
-  //   }
-  //   catch (Exception exception)
-  //   {
+      return BadRequest(exception.Message);
 
-  //     return BadRequest(exception.Message);
-  //   }
+    }
+  }
 
-  // }
+  [HttpDelete("{recipeId}"), Authorize]
+  public async Task<ActionResult<string>> DeleteRecipe(int recipeId)
+  {
+    try
+    {
+      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+      string message = _recipesService.DeleteRecipe(recipeId, userInfo);
+      return Ok(message);
+    }
+    catch (Exception exception)
+    {
+
+      return BadRequest(exception.Message);
+
+    }
+  }
+
 }
