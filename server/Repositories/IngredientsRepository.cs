@@ -1,4 +1,5 @@
 
+
 namespace all_spice.Repositories;
 
 public class IngredientsRepository
@@ -19,5 +20,13 @@ public class IngredientsRepository
 
     Ingredient createdIngredient = _db.Query<Ingredient>(sql, ingredientData).SingleOrDefault();
     return createdIngredient;
+  }
+
+  internal List<Ingredient> GetIngredientsByRecipeId(int recipeId)
+  {
+    string sql = @"SELECT * FROM ingredients WHERE recipe_id = @recipeId;";
+
+    List<Ingredient> ingredients = _db.Query<Ingredient>(sql, new { recipeId }).ToList();
+    return ingredients;
   }
 }

@@ -8,11 +8,9 @@ public class IngredientsController : ControllerBase
   {
     _ingredientsService = ingredientsService;
     _auth0Provider = auth0Provider;
-    _recipesService = recipesService;
   }
   private readonly IngredientsService _ingredientsService;
   private readonly Auth0Provider _auth0Provider;
-  private readonly RecipesService _recipesService;
 
   [HttpPost]
   public async Task<ActionResult<Ingredient>> CreateIngredient([FromBody] Ingredient ingredientData)

@@ -5,14 +5,16 @@ namespace all_spice.Controllers;
 public class RecipesController : ControllerBase
 {
 
-  public RecipesController(RecipesService recipesService, Auth0Provider auth0Provider)
+  public RecipesController(RecipesService recipesService, Auth0Provider auth0Provider, IngredientsService ingredientsService)
   {
     _recipesService = recipesService;
     _auth0Provider = auth0Provider;
+    _ingredientsService = ingredientsService;
   }
 
   private readonly RecipesService _recipesService;
   private readonly Auth0Provider _auth0Provider;
+  private readonly IngredientsService _ingredientsService;
 
   [HttpGet]
   //                                          vv[FromQuery] string category
@@ -55,6 +57,23 @@ public class RecipesController : ControllerBase
       return BadRequest(exception.Message);
     }
 
+  }
+
+  [HttpGet("{recipeId}/ingredients")]
+  public ActionResult<List<Ingredient>> GetIngredientsByRecipeId(int recipeId)
+  {
+    try
+    {
+
+      List<Ingredient> ingredients = _ingredientsService.GetIngredientsByRecipeId(recipeId);
+
+      return Ok(ingredients);
+    }
+    catch (Exception exception)
+    {
+
+      return BadRequest(exception.Message);
+    }
   }
 
   [HttpPost, Authorize]

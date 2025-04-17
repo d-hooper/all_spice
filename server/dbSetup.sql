@@ -43,3 +43,5 @@ CREATE TABLE ingredients(
 );
 
 drop table ingredients;
+
+SELECT * FROM ingredients WHERE recipe_id = 19;
