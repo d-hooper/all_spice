@@ -32,28 +32,46 @@ public class RecipesController : ControllerBase
     }
   }
 
-  // [HttpGet]
-  //                                           vv[FromQuery] string category
-  // public ActionResult<List<Recipe>> GetRecipes()
-  // {
-  //   try
-  //   {
-  //     // if (category == null)
-  //     // {
-  //     List<Recipe> recipes = _recipesService.GetRecipes();
+  [HttpGet]
+  //                                          vv[FromQuery] string category
+  public ActionResult<List<Recipe>> GetRecipes()
+  {
+    try
+    {
+      // if (category == null)
+      // {
+      List<Recipe> recipes = _recipesService.GetRecipes();
 
-  //     // }
-  //     // else
-  //     // {
-  //     //   List<Recipe> recipes = _recipesService.GetRecipes(category);
-  //     // }
-  //     return Ok(recipes);
-  //   }
-  //   catch (Exception exception)
-  //   {
+      // }
+      // else
+      // {
+      //   List<Recipe> recipes = _recipesService.GetRecipes(category);
+      // }
+      return Ok(recipes);
+    }
+    catch (Exception exception)
+    {
 
-  //     return BadRequest(exception.Message);
-  //   }
+      return BadRequest(exception.Message);
+    }
 
-  // }
+  }
+
+  [HttpGet("{recipeId}")]
+  public ActionResult<Recipe> GetRecipeById(int recipeId)
+  {
+    try
+    {
+
+      Recipe recipe = _recipesService.GetRecipeById(recipeId);
+
+      return Ok(recipe);
+    }
+    catch (Exception exception)
+    {
+
+      return BadRequest(exception.Message);
+    }
+
+  }
 }

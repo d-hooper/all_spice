@@ -17,9 +17,21 @@ public class RecipesService
     return recipe;
   }
 
-  // internal List<Recipe> GetRecipes()
-  // {
-  //   List<Recipe> recipes = _repository.GetRecipes();
-  //   return recipes;
-  // }
+  internal List<Recipe> GetRecipes()
+  {
+    List<Recipe> recipes = _repository.GetRecipes();
+    return recipes;
+  }
+
+  internal Recipe GetRecipeById(int recipeId)
+  {
+    Recipe recipe = _repository.GetRecipeById(recipeId);
+
+    if (recipe == null)
+    {
+      throw new Exception($"No recipe found with id of {recipeId}");
+    }
+
+    return recipe;
+  }
 }
