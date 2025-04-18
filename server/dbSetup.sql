@@ -59,6 +59,7 @@ CREATE TABLE favorites (
 );
 
 SELECT * FROM favorites;
+SELECT * FROM favorites WHERE id = 1;
 
 SELECT 
     favorites.*,
