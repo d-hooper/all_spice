@@ -17,6 +17,11 @@ public class RecipesService
     return recipes;
   }
 
+  internal List<Recipe> GetRecipes(string category)
+  {
+    List<Recipe> recipes = _repository.GetRecipes(category);
+    return recipes;
+  }
   internal Recipe GetRecipeById(int recipeId)
   {
     Recipe recipe = _repository.GetRecipeById(recipeId);
@@ -61,4 +66,5 @@ public class RecipesService
 
     return $"Your {recipe.Title} recipe was deleted";
   }
+
 }
