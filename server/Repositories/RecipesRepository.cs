@@ -49,6 +49,43 @@ public class RecipesRepository
     return recipes;
   }
 
+  internal List<Recipe> GetRecipes(string category, string title)
+  {
+    string sql = @"
+    SELECT 
+    recipes.*,
+    accounts.*
+    FROM recipes
+    INNER JOIN accounts ON accounts.id = recipes.creator_id
+    WHERE recipes.category = @category OR recipes.title LIKE @title;";
+
+    List<Recipe> recipes = _db.Query(sql, (Recipe recipe, Profile account) =>
+    {
+      recipe.Creator = account;
+      return recipe;
+    }, new { category, title = $"%{title}%" }).ToList();
+    return recipes;
+  }
+
+
+  internal List<Recipe> GetRecipesCreatedByAccountId(string accountId)
+  {
+    string sql = @"
+    SELECT 
+    recipes.*,
+    accounts.*
+    FROM recipes 
+    INNER JOIN accounts ON accounts.id = recipes.creator_id
+    WHERE recipes.creator_id = @accountId;";
+
+    List<Recipe> recipes = _db.Query(sql, (Recipe recipe, Profile account) =>
+    {
+      recipe.Creator = account;
+      return recipe;
+    }, new { accountId }).ToList();
+    return recipes;
+  }
+
   internal Recipe GetRecipeById(int recipeId)
   {
     string sql = @"
@@ -94,4 +131,5 @@ public class RecipesRepository
     }
 
   }
+
 }
