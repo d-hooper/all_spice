@@ -45,3 +45,25 @@ CREATE TABLE ingredients(
 drop table ingredients;
 
 SELECT * FROM ingredients WHERE recipe_id = 19;
+ 
+  --FAVORITES
+CREATE TABLE favorites (
+  id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  recipe_id INT UNSIGNED NOT NULL,
+  account_id VARCHAR(255) NOT NULL,
+  FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE,
+  FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE,
+  UNIQUE(recipe_id, account_id)
+);
+
+SELECT * FROM favorites;
+SELECT * FROM favorites WHERE id = 1;
+
+SELECT 
+    favorites.*,
+    recipes.*
+    FROM favorites
+    INNER JOIN recipes ON recipes.id = favorites.recipe_id
+    WHERE favorites.id = LAST_INSERT_ID();

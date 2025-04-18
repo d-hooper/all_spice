@@ -46,6 +46,11 @@ public class IngredientsService
   internal string DeleteIngredient(int ingredientId, Account userInfo)
   {
     Ingredient ingredient = GetIngredientById(ingredientId);
+    Recipe recipe = _recipesService.GetRecipeById(ingredient.RecipeId);
+    if (recipe.CreatorId != userInfo.Id)
+    {
+      throw new Exception($"you cannot delete ingredients from another user's recipes {userInfo.Name}".ToUpper());
+    }
 
     _repository.DeleteIngredient(ingredientId);
 
