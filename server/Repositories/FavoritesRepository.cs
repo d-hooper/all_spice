@@ -47,7 +47,7 @@ public class FavoritesRepository
     FROM favorites
     INNER JOIN recipes ON recipes.id = favorites.recipe_id
     INNER JOIN accounts ON accounts.id = recipes.creator_id
-    WHERE accounts.id = @accountId;";
+    WHERE favorites.account_id = @accountId;";
 
     List<FavoriteRecipe> favoriteRecipes = _db.Query(sql, (Favorite favorite, FavoriteRecipe recipe, Profile profile) =>
     {

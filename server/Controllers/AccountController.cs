@@ -57,8 +57,8 @@ public class AccountController : ControllerBase
     {
       Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
       string accountId = userInfo.Id;
-      List<Recipe> favoriteRecipes = _recipesService.GetRecipesCreatedByAccountId(accountId);
-      return Ok(favoriteRecipes);
+      List<Recipe> recipes = _recipesService.GetRecipesCreatedByAccountId(accountId);
+      return Ok(recipes);
     }
     catch (Exception exception)
     {
