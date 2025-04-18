@@ -38,12 +38,12 @@ async function getSavedRecipes() {
 
 <template>
   <div class="bg-light p-2 rounded box-shadow mb-3">
-    <button @click="getRecipes()" class="btn text-success selectable me-2 fw-bold" type="button"
+    <button @click="getRecipes()" class="btn text-vue selectable me-2 poppins-bold" type="button"
             title="All Recipes">Home</button>
-    <button @click="getMyRecipes()" class="btn text-success selectable me-2 fw-bold" type="button"
+    <button @click="getMyRecipes()" class="btn text-vue selectable me-2 poppins-bold" type="button"
             title="Browse recipes you have created">My
       Recipes</button>
-    <button @click="getSavedRecipes()" class="btn text-success selectable fw-bold" type="button"
+    <button @click="getSavedRecipes()" class="btn text-vue selectable poppins-bold" type="button"
             title="Show your saved recipes">Favorites</button>
   </div>
 </template>

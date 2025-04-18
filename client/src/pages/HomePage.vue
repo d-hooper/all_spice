@@ -1,7 +1,9 @@
 <script setup>
+import FloatingButton from '@/components/FloatingButton.vue';
 import HomeSearchButtons from '@/components/HomeSearchButtons.vue';
 import Navbar from '@/components/Navbar.vue';
 import RecipeCard from '@/components/RecipeCard.vue';
+import RecipeModal from '@/components/RecipeModal.vue';
 import { recipesService } from '@/services/RecipesService.js';
 import { logger } from '@/utils/Logger.js';
 import { Pop } from '@/utils/Pop.js';
@@ -47,6 +49,9 @@ async function getRecipes() {
     </div>
   </section>
   <RecipeCard />
+
+  <FloatingButton class="sticky-bottom" />
+  <RecipeModal />
 </template>
 
 <style scoped lang="scss">

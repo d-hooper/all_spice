@@ -4,10 +4,15 @@ import { AppState } from "@/AppState.js"
 import { Recipe } from "@/models/Recipe.js"
 
 class RecipesService {
-  async getRecipes() {
-    const response = await api.get("api/recipes")
-    logger.log(response.data)
-    this.formatRecipeData(response)
+  async getRecipes(query) {
+    if (!query) {
+      const response = await api.get(`api/recipes`)
+      this.formatRecipeData(response)
+    }
+    else {
+      const response = await api.get(`api/recipes?title=${query}`)
+      this.formatRecipeData(response)
+    }
   }
   async getMyRecipes() {
     const response = await api.get('account/recipes')
