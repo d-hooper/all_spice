@@ -37,7 +37,7 @@ async function getSavedRecipes() {
 
 
 <template>
-  <div class="bg-light border-success border-3 p-2 rounded box-shadow mb-3">
+  <div class="bg-light p-2 rounded box-shadow mb-3">
     <button @click="getRecipes()" class="btn text-success selectable me-2 fw-bold" type="button"
             title="All Recipes">Home</button>
     <button @click="getMyRecipes()" class="btn text-success selectable me-2 fw-bold" type="button"

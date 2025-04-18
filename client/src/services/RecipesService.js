@@ -21,6 +21,11 @@ class RecipesService {
     this.formatRecipeData(response)
 
   }
+  async getRecipeById(recipeId) {
+    const response = await api.get(`api/recipes/${recipeId}`)
+    const recipe = new Recipe(response.data)
+    AppState.activeRecipe = recipe
+  }
 
   formatRecipeData(response) {
     const recipes = response.data.map(pojo => new Recipe(pojo))
