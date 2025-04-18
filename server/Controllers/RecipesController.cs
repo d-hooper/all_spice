@@ -17,18 +17,18 @@ public class RecipesController : ControllerBase
   private readonly IngredientsService _ingredientsService;
 
   [HttpGet]
-  public ActionResult<List<Recipe>> GetRecipes([FromQuery] string category)
+  public ActionResult<List<Recipe>> GetRecipes([FromQuery] string category, [FromQuery] string title)
   {
     try
     {
-      if (category == null)
+      if (category == null && title == null)
       {
         List<Recipe> recipes = _recipesService.GetRecipes();
         return Ok(recipes);
       }
       else
       {
-        List<Recipe> recipes = _recipesService.GetRecipes(category);
+        List<Recipe> recipes = _recipesService.GetRecipes(category, title);
         return Ok(recipes);
       }
     }
