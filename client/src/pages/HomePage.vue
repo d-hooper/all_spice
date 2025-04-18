@@ -1,5 +1,6 @@
 <script setup>
 import { AppState } from '@/AppState.js';
+import HomeSearchButtons from '@/components/HomeSearchButtons.vue';
 import Navbar from '@/components/Navbar.vue';
 import { recipesService } from '@/services/RecipesService.js';
 import { logger } from '@/utils/Logger.js';
@@ -39,30 +40,25 @@ async function getRecipes() {
               <p class="mb-0 fs-2">Cherish Your Family</p>
               <p class="mb-0 fs-2">And Their Cooking</p>
             </div>
-            <div class="bg-light border-success border-3 p-3 rounded box-shadow mb-3">
-              <button class="btn btn-outline-success me-2 fw-bold">Home</button>
-              <button class="btn btn-outline-success me-2 fw-bold">My Recipes</button>
-              <button class="btn btn-outline-success fw-bold">Favorite</button>
-            </div>
+            <HomeSearchButtons />
           </div>
         </div>
       </div>
     </div>
   </section>
   <section class="container">
-    <div class="row mt-4">
-      <div v-for="recipe in recipes" :key="recipe.id" class="col-10 col-sm-6 col-md-4 col-lg-3" role="button"
+    <div class="row mt-3 justify-content-center justify-content-sm-start">
+      <div v-for="recipe in recipes" :key="recipe.id" class="col-sm-6 col-lg-4" role="button"
            :title="`See details about ${recipe.title}`">
         <div class=" rounded food-card mb-3 shadow-sm d-flex flex-column justify-content-between text-light fw-bold"
              :style="{ backgroundImage: `url(${recipe.img})` }">
           <div class="text-start p-1 d-flex p">
             <p class="flex-shrink-1 px-2 mb-0 glassy-bg rounded-pill text-capitalize">{{ recipe.category }}</p>
           </div>
-          <div class="mb-1 mx-1 p-2 glassy-bg rounded-1">
+          <div class="mb-1 mx-1 p-2 glassy-bg rounded">
             <p class="mb-0">{{ recipe.title }}</p>
           </div>
         </div>
-
       </div>
     </div>
   </section>
@@ -77,7 +73,7 @@ async function getRecipes() {
 }
 
 .food-card {
-  min-height: 33dvh;
+  min-height: 36dvh;
   background-position: center;
   background-size: cover;
 }

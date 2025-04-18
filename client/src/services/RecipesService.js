@@ -7,9 +7,24 @@ class RecipesService {
   async getRecipes() {
     const response = await api.get("api/recipes")
     logger.log(response.data)
+    this.formatRecipeData(response)
+  }
+  async getMyRecipes() {
+    const response = await api.get('account/recipes')
+    // logger.log(response.data)
+    this.formatRecipeData(response)
+  }
+
+  async getFavoriteRecipes() {
+    const response = await api.get('account/favorites')
+    // logger.log(response.data)
+    this.formatRecipeData(response)
+
+  }
+
+  formatRecipeData(response) {
     const recipes = response.data.map(pojo => new Recipe(pojo))
     AppState.recipes = recipes
   }
-
 }
 export const recipesService = new RecipesService()
