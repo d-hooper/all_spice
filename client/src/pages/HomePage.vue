@@ -1,9 +1,12 @@
 <script setup>
+import { AppState } from '@/AppState.js';
 import Navbar from '@/components/Navbar.vue';
 import { recipesService } from '@/services/RecipesService.js';
 import { logger } from '@/utils/Logger.js';
 import { Pop } from '@/utils/Pop.js';
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
+
+const recipes = computed(() => AppState.recipes)
 
 onMounted(() => {
   getRecipes()
@@ -45,8 +48,20 @@ async function getRecipes() {
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-4 col-sm-6 col-10">
+  </section>
+  <section class="container">
+    <div class="row mt-4">
+      <div v-for="recipe in recipes" :key="recipe.id" class="col-10 col-sm-6 col-md-4 col-lg-3" role="button"
+           :title="`See details about ${recipe.title}`">
+        <div class=" rounded food-card mb-3 shadow-sm d-flex flex-column justify-content-between text-light fw-bold"
+             :style="{ backgroundImage: `url(${recipe.img})` }">
+          <div class="text-start p-1 d-flex p">
+            <p class="flex-shrink-1 px-2 mb-0 glassy-bg rounded-pill text-capitalize">{{ recipe.category }}</p>
+          </div>
+          <div class="mb-1 mx-1 p-2 glassy-bg rounded-1">
+            <p class="mb-0">{{ recipe.title }}</p>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -59,5 +74,11 @@ async function getRecipes() {
   background-image: url('https://images.unsplash.com/photo-1690983322070-22861e13ce47?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
   background-size: cover;
   background-position: center;
+}
+
+.food-card {
+  min-height: 33dvh;
+  background-position: center;
+  background-size: cover;
 }
 </style>

@@ -37,7 +37,7 @@ watch(theme, () => {
         <!-- LOGIN COMPONENT HERE -->
         <div class="d-flex justify-content-end align-items-center gap-2 w-100">
           <SearchBar />
-          <div class="mt-2 d-sm-flex">
+          <div class="d-sm-flex">
             <Login />
             <button class="btn text-light" @click="toggleTheme"
                     :title="`Enable ${theme == 'light' ? 'dark' : 'light'} theme`">

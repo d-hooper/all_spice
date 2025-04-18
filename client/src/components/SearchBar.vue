@@ -8,7 +8,7 @@
     <div class="input-group">
       <label class="input-group-text" for="search">Find Recipes</label>
       <input id="search" name="searchBar" type="text" class="form-control" aria-label="Find Recipes">
-      <button class="btn btn-success">
+      <button class="btn btn-vue">
         <span class="mdi mdi-magnify"></span>
       </button>
     </div>
