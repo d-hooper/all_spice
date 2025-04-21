@@ -6,7 +6,7 @@
 <template>
   <div class="text-end me-3">
     <span class="mdi mdi-plus-circle display-4 text-vue add-recipe" role="button" title="Add a recipe"
-          data-bs-target="#exampleModal" data-bs-toggle="modal"></span>
+          data-bs-target="#createRecipe" data-bs-toggle="modal"></span>
   </div>
 </template>
 

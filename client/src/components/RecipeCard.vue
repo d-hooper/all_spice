@@ -30,13 +30,14 @@ async function getRecipeById(recipeId) {
             <div @click="getRecipeById(recipe.id)"
                  class=" rounded food-card mb-3 shadow-sm d-flex flex-column justify-content-between text-light fw-bold poppins-light"
                  :style="{ backgroundImage: `url(${recipe.img})` }" role="button"
-                 :title="`See details about ${recipe.title}`">
+                 :title="`See details about ${recipe.title}`" data-bs-target="#recipeDetails" data-bs-toggle="modal">
               <div class="text-start p-1 d-flex p">
                 <p class="flex-shrink-1 px-2 mb-0 glassy-bg rounded-pill text-capitalize">{{ recipe.category }}</p>
               </div>
               <div class="mb-1 mx-1 p-2 glassy-bg rounded">
                 <p class="mb-0">{{ recipe.title }}</p>
               </div>
+
             </div>
           </div>
         </div>

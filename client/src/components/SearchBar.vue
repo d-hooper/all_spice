@@ -9,7 +9,7 @@ const editableSearchData = ref('')
 
 async function getRecipesByQuery() {
   try {
-    await recipesService.getRecipes(editableSearchData)
+    await recipesService.getRecipes(editableSearchData.value)
     editableSearchData.value = ''
   }
   catch (error) {
@@ -22,7 +22,7 @@ async function getRecipesByQuery() {
 
 
 <template>
-  <form>
+  <form @submit.prevent="getRecipesByQuery()">
     <div class="input-group">
       <label class="input-group-text" for="search">Find Recipes</label>
       <input v-model="editableSearchData" id="search" type="text" class="form-control" aria-label="Find Recipes">

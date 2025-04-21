@@ -3,11 +3,13 @@ import FloatingButton from '@/components/FloatingButton.vue';
 import HomeSearchButtons from '@/components/HomeSearchButtons.vue';
 import Navbar from '@/components/Navbar.vue';
 import RecipeCard from '@/components/RecipeCard.vue';
-import RecipeModal from '@/components/RecipeModal.vue';
+import RecipeForm from '@/components/RecipeForm.vue';
+import Modal from '@/components/Modal.vue';
 import { recipesService } from '@/services/RecipesService.js';
 import { logger } from '@/utils/Logger.js';
 import { Pop } from '@/utils/Pop.js';
 import { onMounted } from 'vue';
+import RecipeDetails from '@/components/RecipeDetails.vue';
 
 
 
@@ -51,7 +53,10 @@ async function getRecipes() {
   <RecipeCard />
 
   <FloatingButton class="sticky-bottom" />
-  <RecipeModal />
+  <Modal :modalId="'createRecipe'" :modalTitle="'Add a New Recipe'" :showHeader="true">
+    <RecipeForm />
+  </Modal>
+  <RecipeDetails :editMode="false" />
 </template>
 
 <style scoped lang="scss">
