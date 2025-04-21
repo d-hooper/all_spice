@@ -8,10 +8,11 @@ import Modal from '@/components/Modal.vue';
 import { recipesService } from '@/services/RecipesService.js';
 import { logger } from '@/utils/Logger.js';
 import { Pop } from '@/utils/Pop.js';
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import RecipeDetails from '@/components/RecipeDetails.vue';
+import { AppState } from '@/AppState.js';
 
-
+const account = computed(() => AppState.account)
 
 onMounted(() => {
   getRecipes()
@@ -52,7 +53,7 @@ async function getRecipes() {
   </section>
   <RecipeCard />
 
-  <FloatingButton class="sticky-bottom" />
+  <FloatingButton v-if="account" class="sticky-bottom" />
   <Modal :modalId="'createRecipe'" :modalTitle="'Add a New Recipe'" :showHeader="true">
     <RecipeForm />
   </Modal>
