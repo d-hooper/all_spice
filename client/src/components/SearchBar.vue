@@ -24,8 +24,8 @@ async function getRecipesByQuery() {
 <template>
   <form @submit.prevent="getRecipesByQuery()">
     <div class="input-group">
-      <label class="input-group-text" for="search">Find Recipes</label>
-      <input v-model="editableSearchData" id="search" type="text" class="form-control" aria-label="Find Recipes">
+      <input v-model="editableSearchData" id="recipeSearch" type="text" class="form-control" aria-label="Find Recipes"
+             placeholder="Find Recipes">
       <button class="btn btn-vue" type="submit" title="Search!">
         <span class="mdi mdi-magnify text-light"></span>
       </button>
@@ -34,4 +34,12 @@ async function getRecipesByQuery() {
 </template>
 
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+input {
+  min-width: 30dvw !important;
+}
+
+.input-group {
+  max-height: 3.75rem !important;
+}
+</style>

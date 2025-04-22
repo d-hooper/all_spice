@@ -5,6 +5,7 @@ import { Recipe } from "@/models/Recipe.js"
 
 class RecipesService {
 
+
   async getRecipes(query) {
     if (!query) {
       const response = await api.get(`api/recipes`)
@@ -36,8 +37,15 @@ class RecipesService {
   async createRecipe(foodData) {
     const response = await api.post('api/recipes', foodData)
     logger.log(response.data)
+    const recipe = new Recipe(response.data)
+    AppState.recipes.push(recipe)
   }
-
+  async deleteRecipe(recipeId) {
+    const response = await api.delete(`api/recipes/${recipeId}`)
+    const recipes = AppState.recipes
+    const indexToDelete = recipes.findIndex(recipe => recipe.id == recipeId)
+    recipes.splice(indexToDelete, 1)
+  }
   formatRecipeData(response) {
     const recipes = response.data.map(pojo => new Recipe(pojo))
     AppState.recipes = recipes

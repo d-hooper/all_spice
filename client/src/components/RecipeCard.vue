@@ -25,7 +25,7 @@ async function getRecipeById(recipeId) {
   <section class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-md-11 col-lg-10">
-        <div class="row mt-3 justify-content-center justify-content-sm-start">
+        <div class="row justify-content-center justify-content-sm-start">
           <div v-for="recipe in recipes" :key="recipe.id" class="col-sm-6 col-lg-4">
             <div @click="getRecipeById(recipe.id)"
                  class=" rounded food-card mb-3 shadow-sm d-flex flex-column justify-content-between text-light fw-bold poppins-light"

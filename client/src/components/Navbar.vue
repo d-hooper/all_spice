@@ -35,15 +35,15 @@ watch(theme, () => {
           </li> -->
         </ul>
         <!-- LOGIN COMPONENT HERE -->
-        <div class="d-flex justify-content-end align-items-center gap-2 w-100">
+        <div class="d-flex justify-content-center justify-content-md-end align-items-center gap-2 w-100">
           <SearchBar />
           <div class="d-sm-flex">
             <Login />
-            <button class="btn text-light" @click="toggleTheme"
+            <!-- <button class="btn text-light" @click="toggleTheme"
                     :title="`Enable ${theme == 'light' ? 'dark' : 'light'} theme`">
               <i v-if="theme == 'dark'" class="mdi mdi-weather-sunny fs-4"></i>
               <i v-if="theme == 'light'" class="mdi mdi-weather-night fs-4"></i>
-            </button>
+            </button> -->
           </div>
         </div>
       </div>

@@ -113,7 +113,7 @@ export class Pop {
           <p>${text}</p>
           <div class="dialog-buttons d-flex gap-3">
             <button id="cancel-button" class="btn w-100" > ${cancelText} </button>
-            <button id="confirm-button" class="btn btn-primary w-100" > ${confirmText} </button>
+            <button id="confirm-button" class="btn btn-vue w-100" > ${confirmText} </button>
           </div>
         </div>
       `);

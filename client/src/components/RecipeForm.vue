@@ -2,6 +2,7 @@
 import { recipesService } from '@/services/RecipesService.js';
 import { logger } from '@/utils/Logger.js';
 import { Pop } from '@/utils/Pop.js';
+import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.js';
 import { ref } from 'vue';
 
 const editableRecipeData = ref({
@@ -15,6 +16,7 @@ async function createRecipe() {
   try {
     const foodData = editableRecipeData.value
     await recipesService.createRecipe(foodData)
+    Modal.getOrCreateInstance('#createRecipe').hide()
   }
   catch (error) {
     Pop.error(error, 'could not create recipe');

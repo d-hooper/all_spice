@@ -1,5 +1,9 @@
 <script setup>
 import { AppState } from '@/AppState.js';
+import { recipesService } from '@/services/RecipesService.js';
+import { logger } from '@/utils/Logger.js';
+import { Pop } from '@/utils/Pop.js';
+import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.js';
 import { computed } from 'vue';
 
 const recipe = computed(() => AppState.activeRecipe)
@@ -9,6 +13,20 @@ defineProps({
   editMode: { type: Boolean, required: true, default: false }
 })
 
+async function deleteRecipe(recipeId) {
+  try {
+    const confirmed = await Pop.confirm('Are you sure you want to delete this recipe?', 'This cannot be undone.', 'YES', 'Cancel')
+    if (!confirmed) return
+    await recipesService.deleteRecipe(recipeId)
+    Modal.getOrCreateInstance('#recipeDetails').hide()
+    Pop.toast('Recipe deleted')
+  }
+  catch (error) {
+    Pop.error(error, 'Could not delete recipe');
+    logger.error('could not delete recipe'.toUpperCase(), error);
+  }
+}
+
 </script>
 
 
@@ -16,10 +34,6 @@ defineProps({
   <div class="modal fade" id="recipeDetails" tabindex="-1" aria-labelledby="recipeLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
-        <!-- <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-        
-      </div> -->
         <div class="modal-body">
           <div class="container-fluid">
             <div v-if="recipe" class="row">
@@ -39,7 +53,7 @@ defineProps({
 
                       <ul class="dropdown-menu">
                         <li class="dropdown-item selectable text-success">Edit</li>
-                        <li class="dropdown-item selectable text-danger">Delete</li>
+                        <li @click="deleteRecipe(recipe.id)" class="dropdown-item selectable text-danger">Delete</li>
                       </ul>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
@@ -58,10 +72,6 @@ defineProps({
 
           </div>
         </div>
-        <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div> -->
       </div>
     </div>
   </div>
