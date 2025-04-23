@@ -12,6 +12,12 @@ const account = computed(() => AppState.account)
 const editMode = computed(() => AppState.editMode)
 
 onMounted(() => {
+  const myModalEl = document.getElementById('recipeDetails')
+  myModalEl.addEventListener('hidden.bs.modal', () => {
+    if (myModalEl) {
+      recipesService.deactivateEditMode()
+    }
+  })
 })
 
 async function deleteRecipe(recipeId) {
@@ -32,12 +38,14 @@ function activateEditMode() {
   recipesService.activateEditMode()
 }
 
+
+
 </script>
 
-
+<!-- TODO chang editMode to false on modal exit besides updating recipe -->
 <template>
   <div class="modal fade" id="recipeDetails" tabindex="-1" aria-labelledby="recipeLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-fullscreen-lg-down">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div v-if="editMode" class="modal-header bg-vue text-light ">
           <div class="container">
@@ -88,7 +96,7 @@ function activateEditMode() {
               </div>
             </div>
             <div v-else-if="editMode">
-              <EditRecipeForm :recipe="recipe" :editMode="editMode" />
+              <EditRecipeForm :recipe="recipe" />
             </div>
             <div v-else>
               <h1>Loading... <span class="mdi mdi-food-croissant mdi-spin"></span></h1>

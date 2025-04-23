@@ -4,9 +4,6 @@ import { AppState } from "@/AppState.js"
 import { Recipe } from "@/models/Recipe.js"
 
 class RecipesService {
-  activateEditMode() {
-    AppState.editMode = true
-  }
   async updateRecipe(recipeId, recipeData) {
     const response = await api.put(`api/recipes/${recipeId}`, recipeData)
     logger.log(response.data)
@@ -58,6 +55,12 @@ class RecipesService {
   formatRecipeData(response) {
     const recipes = response.data.map(pojo => new Recipe(pojo))
     AppState.recipes = recipes
+  }
+  activateEditMode() {
+    AppState.editMode = true
+  }
+  deactivateEditMode() {
+    AppState.editMode = false
   }
 }
 export const recipesService = new RecipesService()

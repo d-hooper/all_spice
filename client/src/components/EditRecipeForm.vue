@@ -7,8 +7,7 @@ import { ref } from 'vue';
 
 
 const props = defineProps({
-  recipe: { type: Recipe, required: true },
-  editMode: { type: Boolean, required: true }
+  recipe: { type: Recipe, required: true }
 })
 
 const editableRecipeData = ref({
