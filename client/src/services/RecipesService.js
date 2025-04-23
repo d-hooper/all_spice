@@ -4,6 +4,15 @@ import { AppState } from "@/AppState.js"
 import { Recipe } from "@/models/Recipe.js"
 
 class RecipesService {
+  activateEditMode() {
+    AppState.editMode = true
+  }
+  async updateRecipe(recipeId, recipeData) {
+    const response = await api.put(`api/recipes/${recipeId}`, recipeData)
+    logger.log(response.data)
+    AppState.editMode = false
+    this.getRecipeById(recipeId)
+  }
 
 
   async getRecipes(query) {

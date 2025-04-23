@@ -12,7 +12,7 @@ defineProps({
 
 <template>
   <div class="modal fade" :id="`${modalId}`" tabindex="-1" :aria-labelledby="`${modalId}Label`" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg modal-full-screen-lg-down">
       <div class="modal-content">
         <div v-if="showHeader" class="modal-header bg-vue text-light">
           <h1 class="modal-title fs-3 libre-baskerville-bold" :id="`${modalId}Label`">{{ modalTitle ?? '' }}</h1>

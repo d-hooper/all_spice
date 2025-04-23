@@ -1,34 +1,39 @@
 <script setup>
+import { Recipe } from '@/models/Recipe.js';
 import { recipesService } from '@/services/RecipesService.js';
 import { logger } from '@/utils/Logger.js';
 import { Pop } from '@/utils/Pop.js';
-import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.js';
 import { ref } from 'vue';
 
-const editableRecipeData = ref({
-  title: '',
-  category: '',
-  instructions: '',
-  img: ''
+
+const props = defineProps({
+  recipe: { type: Recipe, required: true },
+  editMode: { type: Boolean, required: true }
 })
 
-async function createRecipe() {
+const editableRecipeData = ref({
+  title: props.recipe.title ?? '',
+  category: props.recipe.category ?? '',
+  instructions: props.recipe.instructions ?? '',
+  img: props.recipe.img ?? ''
+})
+
+async function updateRecipe() {
   try {
-    const foodData = editableRecipeData.value
-    await recipesService.createRecipe(foodData)
-    Modal.getOrCreateInstance('#createRecipe').hide()
+    const recipeId = props.recipe.id
+    await recipesService.updateRecipe(recipeId, editableRecipeData.value)
+
   }
   catch (error) {
-    Pop.error(error, 'could not create recipe');
-    logger.error('could not create recipe'.toUpperCase(), error);
+    Pop.error(error, 'could not update recipe');
+    logger.error('could not update recipe'.toUpperCase(), error);
   }
 }
-
 </script>
 
-
 <template>
-  <form @submit.prevent="createRecipe()">
+
+  <form @submit.prevent="updateRecipe()">
     <section class="container">
       <div class="row justify-content-center">
         <div class="col-md-6 order-last order-md-first">
@@ -69,9 +74,9 @@ async function createRecipe() {
             </div>
           </div>
         </div>
-        <div class="col-12">
+        <div class="col-12 order-last">
           <div class="text-end">
-            <button class="btn btn-vue text-light" type="submit">Add Recipe</button>
+            <button class="btn btn-vue text-light" type="submit">Update Recipe</button>
           </div>
         </div>
       </div>
@@ -79,8 +84,7 @@ async function createRecipe() {
   </form>
 </template>
 
-
-<style lang="scss" scoped>
+<style lang="scss">
 .form-img {
   width: 100%;
   max-height: 40dvh;
