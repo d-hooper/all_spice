@@ -39,14 +39,14 @@ async function createRecipe() {
           </div>
           <div class="text-center mb-2">
             <img :src="editableRecipeData.img || 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Placeholder-image.png/640px-Placeholder-image.png'"
-                 alt="" class="rounded form-img object-fit-cover object-position-center">
+                 alt="" class="rounded form-img">
           </div>
         </div>
         <div class="col-md-6">
           <div class="d-flex flex-column h-100">
             <div class="form-floating mb-2">
               <input v-model="editableRecipeData.title" id="title" type="text" class="form-control"
-                     aria-label="Find Recipes" required>
+                     aria-label="Find Recipes" required max-length="25">
               <label for="title">Recipe Title</label>
             </div>
             <div class="form-floating mb-2">
@@ -69,6 +69,8 @@ async function createRecipe() {
             </div>
           </div>
         </div>
+      </div>
+      <div class="row">
         <div class="col-12">
           <div class="text-end">
             <button class="btn btn-vue text-light" type="submit">Add Recipe</button>
@@ -83,7 +85,7 @@ async function createRecipe() {
 <style lang="scss" scoped>
 .form-img {
   width: 100%;
-  max-height: 40dvh;
+  object-fit: cover;
 }
 
 textarea {

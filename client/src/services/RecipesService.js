@@ -11,7 +11,6 @@ class RecipesService {
     this.getRecipeById(recipeId)
   }
 
-
   async getRecipes(query) {
     if (!query) {
       const response = await api.get(`api/recipes`)
@@ -31,9 +30,14 @@ class RecipesService {
   async getFavoriteRecipes() {
     const response = await api.get('account/favorites')
     // logger.log(response.data)
-    this.formatRecipeData(response)
-
+    const recipes = response.data.map(pojo => new Recipe(pojo))
+    AppState.favoriteRecipes = recipes
   }
+
+  setFavoriteRecipes() {
+    AppState.recipes = AppState.favoriteRecipes
+  }
+
   async getRecipeById(recipeId) {
     AppState.activeRecipe = null
     const response = await api.get(`api/recipes/${recipeId}`)

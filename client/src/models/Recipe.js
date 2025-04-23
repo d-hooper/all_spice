@@ -1,3 +1,4 @@
+import { AppState } from "@/AppState.js"
 import { Profile } from "./Account.js"
 
 export class Recipe {
@@ -11,5 +12,12 @@ export class Recipe {
     this.category = data.category
     this.creatorId = data.creatorId
     this.creator = new Profile(data.creator)
+  }
+  get isFavorite() {
+    const recipes = AppState.favoriteRecipes
+    if (recipes.find(recipe => recipe.id == this.id)) {
+      return true
+    }
+    return false
   }
 }

@@ -7,6 +7,8 @@ import { computed } from 'vue';
 
 const recipes = computed(() => AppState.recipes)
 
+const favoriteRecipes = computed(() => AppState.favoriteRecipes)
+
 async function getRecipeById(recipeId) {
   try {
     await recipesService.getRecipeById(recipeId)
@@ -34,10 +36,10 @@ async function getRecipeById(recipeId) {
               <div class="text-start p-1 d-flex p">
                 <p class="flex-shrink-1 px-2 mb-0 glassy-bg rounded-pill text-capitalize">{{ recipe.category }}</p>
               </div>
-              <div class="mb-1 mx-1 p-2 glassy-bg rounded">
+              <div class="mb-1 mx-1 px-2 py-1 glassy-bg rounded d-flex justify-content-between align-items-center">
                 <p class="mb-0">{{ recipe.title }}</p>
+                <span v-if="recipe.isFavorite" class="mdi mdi-heart text-red fs-5"></span>
               </div>
-
             </div>
           </div>
         </div>

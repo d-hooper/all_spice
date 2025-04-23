@@ -14,6 +14,10 @@ async function getRecipes() {
   }
 }
 
+function setFavoriteRecipes() {
+  recipesService.setFavoriteRecipes()
+}
+
 async function getMyRecipes() {
   try {
     await recipesService.getMyRecipes()
@@ -24,15 +28,15 @@ async function getMyRecipes() {
   }
 }
 
-async function getSavedRecipes() {
-  try {
-    await recipesService.getFavoriteRecipes()
-  }
-  catch (error) {
-    Pop.error(error, 'Unable to retrieve recipes');
-    logger.error('unable to retrieve recipes'.toUpperCase(), error)
-  }
-}
+// async function getSavedRecipes() {
+//   try {
+//     await recipesService.getFavoriteRecipes()
+//   }
+//   catch (error) {
+//     Pop.error(error, 'Unable to retrieve recipes');
+//     logger.error('unable to retrieve recipes'.toUpperCase(), error)
+//   }
+// }
 </script>
 
 
@@ -43,7 +47,7 @@ async function getSavedRecipes() {
     <button @click="getMyRecipes()" class="btn text-vue selectable me-2 poppins-bold" type="button"
             title="Browse recipes you have created">My
       Recipes</button>
-    <button @click="getSavedRecipes()" class="btn text-vue selectable poppins-bold" type="button"
+    <button @click="setFavoriteRecipes()" class="btn text-vue selectable poppins-bold" type="button"
             title="Show your saved recipes">Favorites</button>
   </div>
 </template>

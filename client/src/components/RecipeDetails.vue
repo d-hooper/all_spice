@@ -112,7 +112,7 @@ function activateEditMode() {
 <style lang="scss" scoped>
 .modal-img {
   width: 100%;
-  height: 50dvh;
+  height: 45dvh;
 }
 
 .options {
