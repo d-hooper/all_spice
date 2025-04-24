@@ -13,9 +13,9 @@ const account = computed(() => AppState.account)
 const editMode = computed(() => AppState.editMode)
 
 onMounted(() => {
-  const myModalEl = document.getElementById('recipeDetails')
-  myModalEl.addEventListener('hidden.bs.modal', () => {
-    if (myModalEl) {
+  const modal = document.getElementById('recipeDetails')
+  modal.addEventListener('hidden.bs.modal', () => {
+    if (modal) {
       recipesService.deactivateEditMode()
     }
   })
@@ -65,11 +65,8 @@ async function createFavoriteRecipe(recipeId) {
     logger.error('could not add the favorite recipe'.toUpperCase(), error);
   }
 }
-
-
 </script>
 
-<!-- TODO chang editMode to false on modal exit besides updating recipe -->
 <template>
   <div class="modal fade" id="recipeDetails" tabindex="-1" aria-labelledby="recipeLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -102,7 +99,6 @@ async function createFavoriteRecipe(recipeId) {
                     <div v-if="account?.id == recipe.creatorId" class="dropdown ">
                       <span class="mdi mdi-dots-horizontal options" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false" title="Recipe actions"></span>
-
                       <ul class="dropdown-menu">
                         <li @click="activateEditMode()" class="dropdown-item selectable text-success"
                             title="Edit recipe">Edit</li>
@@ -149,7 +145,6 @@ async function createFavoriteRecipe(recipeId) {
       </div>
     </div>
   </div>
-
 </template>
 
 <style lang="scss" scoped>
@@ -159,7 +154,6 @@ async function createFavoriteRecipe(recipeId) {
 }
 
 .options {
-
   border: 2px inset rgba(0, 0, 0, 0);
 }
 
