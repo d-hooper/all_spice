@@ -21,3 +21,11 @@ export class Recipe {
     return false
   }
 }
+
+export class FavoriteRecipe extends Recipe {
+
+  constructor(data) {
+    super(data);
+    this.favoriteId = data.favoriteId
+  }
+}

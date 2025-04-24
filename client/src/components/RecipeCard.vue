@@ -7,8 +7,6 @@ import { computed } from 'vue';
 
 const recipes = computed(() => AppState.recipes)
 
-const favoriteRecipes = computed(() => AppState.favoriteRecipes)
-
 async function getRecipeById(recipeId) {
   try {
     await recipesService.getRecipeById(recipeId)

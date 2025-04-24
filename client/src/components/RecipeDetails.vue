@@ -5,7 +5,8 @@ import { logger } from '@/utils/Logger.js';
 import { Pop } from '@/utils/Pop.js';
 import EditRecipeForm from '@/components/EditRecipeForm.vue';
 import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.js';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted } from 'vue';
+import { favoritesService } from '@/services/FavoritesService.js';
 
 const recipe = computed(() => AppState.activeRecipe)
 const account = computed(() => AppState.account)
@@ -38,6 +39,19 @@ function activateEditMode() {
   recipesService.activateEditMode()
 }
 
+async function deleteFavoriteRecipe(recipeId) {
+  try {
+    const confirmed = await Pop.confirm('Are you sure you want to delete this recipe from your Saved Favorites?', 'You can mark this recipe as a favorite again later, should you choose to do so.', 'YES', 'Cancel')
+    if (!confirmed) return
+    await favoritesService.deleteFavoriteRecipe(recipeId)
+    Modal.getOrCreateInstance('#recipeDetails').hide()
+    Pop.toast('Favorite status removed')
+  }
+  catch (error) {
+    Pop.error(error, 'Could not remove the favorite recipe');
+    logger.error('could not remove the favorite recipe'.toUpperCase(), error);
+  }
+}
 
 
 </script>
@@ -74,11 +88,21 @@ function activateEditMode() {
                   <div class="d-flex align-items-start gap-2">
                     <div v-if="account?.id == recipe.creatorId" class="dropdown ">
                       <span class="mdi mdi-dots-horizontal options" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false" title="Edit or Delete Recipe"></span>
+                            aria-expanded="false" title="Recipe actions"></span>
 
                       <ul class="dropdown-menu">
-                        <li @click="activateEditMode()" class="dropdown-item selectable text-success">Edit</li>
-                        <li @click="deleteRecipe(recipe.id)" class="dropdown-item selectable text-danger">Delete</li>
+                        <li @click="activateEditMode()" class="dropdown-item selectable text-success"
+                            title="Edit recipe">Edit</li>
+                        <li @click="deleteRecipe(recipe.id)" class="dropdown-item selectable text-danger"
+                            title="Delete recipe">Delete</li>
+                        <li v-if="recipe.isFavorite" @click="deleteFavoriteRecipe(recipe.id)"
+                            class="dropdown-item selectable text-pink" title="Remove from favorite recipes">
+                          <span class="mdi mdi-heart-off text-red"></span>
+                        </li>
+                        <!-- <li v-else @click="createFavoriteRecipe()" class="dropdown-item selectable text-danger" title="Add to favorite recipes">
+                          <span class="mdi mdi-heart text-red"></span>
+                        </li> -->
+
                       </ul>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
@@ -87,7 +111,11 @@ function activateEditMode() {
                 </div>
                 <div class="mx-2 d-flex text-light mb-2 justify-content-between">
                   <p class="mb-0 text-dark"> by {{ recipe.creator.name }}</p>
-                  <p class="px-2 mb-0 glassy-bg rounded-pill text-capitalize">{{ recipe.category }}</p>
+                  <div class="d-flex gap-1">
+                    <p class="px-2 mb-0 glassy-bg rounded-pill text-capitalize">{{ recipe.category }}</p>
+                    <span v-if="recipe.isFavorite" class="mdi mdi-heart text-red"
+                          title="This recipe is saved to your favorites"></span>
+                  </div>
                 </div>
                 <div class="mx-2 mb-2">
                   <h3>Instructions</h3>
@@ -99,7 +127,9 @@ function activateEditMode() {
               <EditRecipeForm :recipe="recipe" />
             </div>
             <div v-else>
-              <h1>Loading... <span class="mdi mdi-food-croissant mdi-spin"></span></h1>
+              <h1>Loading...
+                <span class="mdi mdi-food-croissant mdi-spin"></span>
+              </h1>
             </div>
           </div>
         </div>

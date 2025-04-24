@@ -1,7 +1,7 @@
 import { logger } from "@/utils/Logger.js"
 import { api } from "./AxiosService.js"
 import { AppState } from "@/AppState.js"
-import { Recipe } from "@/models/Recipe.js"
+import { FavoriteRecipe, Recipe } from "@/models/Recipe.js"
 
 class RecipesService {
   async updateRecipe(recipeId, recipeData) {
@@ -30,7 +30,7 @@ class RecipesService {
   async getFavoriteRecipes() {
     const response = await api.get('account/favorites')
     // logger.log(response.data)
-    const recipes = response.data.map(pojo => new Recipe(pojo))
+    const recipes = response.data.map(pojo => new FavoriteRecipe(pojo))
     AppState.favoriteRecipes = recipes
   }
 
@@ -41,7 +41,7 @@ class RecipesService {
   async getRecipeById(recipeId) {
     AppState.activeRecipe = null
     const response = await api.get(`api/recipes/${recipeId}`)
-    const recipe = new Recipe(response.data)
+    const recipe = new FavoriteRecipe(response.data)
     AppState.activeRecipe = recipe
   }
   async createRecipe(foodData) {
