@@ -30,6 +30,7 @@ async function deleteRecipe(recipeId) {
     Pop.toast('Recipe deleted')
   }
   catch (error) {
+    Modal.getOrCreateInstance('#recipeDetails').hide()
     Pop.error(error, 'Could not delete recipe');
     logger.error('could not delete recipe'.toUpperCase(), error);
   }
@@ -48,8 +49,20 @@ async function deleteFavoriteRecipe(recipeId) {
     Pop.toast('Favorite status removed')
   }
   catch (error) {
+    Modal.getOrCreateInstance('#recipeDetails').hide()
     Pop.error(error, 'Could not remove the favorite recipe');
     logger.error('could not remove the favorite recipe'.toUpperCase(), error);
+  }
+}
+async function createFavoriteRecipe(recipeId) {
+  try {
+    await favoritesService.createFavoriteRecipe(recipeId)
+    Pop.toast('Favorite status added')
+  }
+  catch (error) {
+    Modal.getOrCreateInstance('#recipeDetails').hide()
+    Pop.error(error, 'Could not add the favorite recipe');
+    logger.error('could not add the favorite recipe'.toUpperCase(), error);
   }
 }
 
@@ -99,10 +112,10 @@ async function deleteFavoriteRecipe(recipeId) {
                             class="dropdown-item selectable text-pink" title="Remove from favorite recipes">
                           <span class="mdi mdi-heart-off text-red"></span>
                         </li>
-                        <!-- <li v-else @click="createFavoriteRecipe()" class="dropdown-item selectable text-danger" title="Add to favorite recipes">
+                        <li v-else @click="createFavoriteRecipe(recipe.id)" class="dropdown-item selectable text-danger"
+                            title="Add to favorite recipes">
                           <span class="mdi mdi-heart text-red"></span>
-                        </li> -->
-
+                        </li>
                       </ul>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
